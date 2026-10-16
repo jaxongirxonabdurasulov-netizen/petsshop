@@ -1,0 +1,13 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<h1>Shifokor qabuliga yozilish</h1>
+
+<form method="post" class="form-box">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="submit">Yuborish</button>
+</form>
+
+<a class="back" href="{% url 'product_list' %}">← Mahsulotlarga qaytish</a>
+{% endblock %}

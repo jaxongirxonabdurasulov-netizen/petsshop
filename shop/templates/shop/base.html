@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetShop</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #fff8f0; color: #2d2a32; }
+    .topbar { display: flex; justify-content: space-between; align-items: center;
+              padding: 14px 32px; background: #2d2a32; }
+    .brand { color: #fff; font-size: 22px; font-weight: bold; text-decoration: none; }
+    .cta { background: #f08a24; color: #fff; padding: 9px 18px; border-radius: 8px;
+           text-decoration: none; font-weight: bold; }
+    .cta:hover { background: #d9780f; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 20px; }
+    h1 { margin-top: 0; }
+    .search { width: 100%; max-width: 360px; padding: 10px 14px; margin-bottom: 20px;
+              border: 2px solid #f08a24; border-radius: 999px; font-size: 15px; outline: none; }
+    .filters { margin-bottom: 24px; }
+    .btn { display: inline-block; padding: 9px 20px; margin: 0 6px 8px 0;
+           border: 2px solid #f08a24; border-radius: 999px; color: #f08a24;
+           text-decoration: none; font-weight: bold; }
+    .btn:hover, .btn.active { background: #f08a24; color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+    .card { background: #fff; border-radius: 12px; padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: transform 0.15s; }
+    .card:hover { transform: translateY(-4px); }
+    .badge { display: inline-block; background: #ffe7cc; color: #b35c00;
+             padding: 3px 10px; border-radius: 999px; font-size: 13px; }
+    .card h3 { margin: 12px 0 8px; }
+    .price { font-size: 18px; font-weight: bold; color: #f08a24; margin: 0; }
+    .form-box { background: #fff; padding: 24px; border-radius: 12px; max-width: 520px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .form-box p { margin: 0 0 14px; }
+    .form-box label { display: block; font-weight: bold; margin-bottom: 4px; }
+    .form-box input, .form-box select, .form-box textarea {
+      width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
+    .submit { background: #f08a24; color: #fff; border: 0; padding: 11px 26px;
+              border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .submit:hover { background: #d9780f; }
+    .back { display: inline-block; margin-top: 16px; color: #f08a24; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'product_list' %}">🐾 PetShop</a>
+    <a class="cta" href="{% url 'appointment' %}">Shifokor qabuli</a>
+  </header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    // 1. Mahsulotlarni nomi bo'yicha qidirish
+    const search = document.getElementById('search');
+    if (search) {
+      search.addEventListener('input', function () {
+        const q = search.value.toLowerCase().trim();
+        document.querySelectorAll('.card').forEach(function (card) {
+          const name = card.querySelector('h3').textContent.toLowerCase();
+          card.style.display = name.includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    // 2. Telefon maydoniga faqat raqam, + va bo'sh joy
+    const phone = document.getElementById('id_phone_number');
+    if (phone) {
+      phone.addEventListener('input', function () {
+        phone.value = phone.value.replace(/[^0-9+ ]/g, '');
+      });
+    }
+
+    // 3. O'tgan sanani tanlab bo'lmasin
+    const date = document.getElementById('id_date');
+    if (date) {
+      date.min = new Date().toISOString().split('T')[0];
+    }
+  </script>
+</body>
+</html>

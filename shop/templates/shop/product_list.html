@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<h1>Uy hayvonlari uchun mahsulotlar</h1>
+
+<input type="text" id="search" class="search" placeholder="Mahsulot qidirish...">
+
+<div class="filters">
+  <a class="btn {% if not selected %}active{% endif %}" href="?">Hammasi</a>
+  {% for value, label in animals %}
+    <a class="btn {% if selected == value %}active{% endif %}" href="?animal={{ value }}">{{ label }}</a>
+  {% endfor %}
+</div>
+
+<div class="grid">
+  {% for product in products %}
+    <div class="card">
+      <span class="badge">{{ product.get_category_display }}</span>
+      <h3>{{ product.name }}</h3>
+      <p class="price">{{ product.price }} so'm</p>
+    </div>
+  {% empty %}
+    <p>Mahsulot topilmadi.</p>
+  {% endfor %}
+</div>
+{% endblock %}
